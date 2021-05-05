@@ -23,7 +23,7 @@ public class DistrictsDownloader {
 
 	public void downloadData() {
 		try {
-			JsonNode statesNode = mapper.readTree(DistrictsDownloader.class.getResourceAsStream("/statesList.json"));
+			JsonNode statesNode = mapper.readTree(DistrictsDownloader.class.getResourceAsStream("/states.json"));
 			Iterator<JsonNode> stateIt = statesNode.get("states").iterator();
 			while (stateIt.hasNext()) {
 				JsonNode stateNode = stateIt.next();
@@ -42,7 +42,7 @@ public class DistrictsDownloader {
 
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpGet httpGet = new HttpGet(call.toString());
-		httpGet.setHeader("user-agent", "Chrome/49.0");
+		httpGet.setHeader("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36");
 		try {
 			CloseableHttpResponse httpResponse = httpclient.execute(httpGet);
 			HttpEntity entity = httpResponse.getEntity();
