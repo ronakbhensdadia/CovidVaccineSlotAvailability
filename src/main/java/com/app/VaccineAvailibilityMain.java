@@ -16,7 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pojo.Centre;
 import com.util.FunctionUtils;
 
-public class VaccineAvailibility {
+public class VaccineAvailibilityMain {
 
 	public static void main(String[] args) throws JsonProcessingException, UnsupportedOperationException, IOException,
 			InterruptedException, UnsupportedAudioFileException, LineUnavailableException {
