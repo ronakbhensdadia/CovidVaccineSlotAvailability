@@ -20,7 +20,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-import com.app.VaccineAvailibility;
+import com.app.VaccineAvailibilityMain;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -44,19 +44,27 @@ public class FunctionUtils {
 
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpGet httpGet = new HttpGet(call.toString());
-		CloseableHttpResponse httpResponse = httpclient.execute(httpGet);
+		CloseableHttpResponse httpResponse = null;
 
 		try {
+			httpResponse = httpclient.execute(httpGet);
 			HttpEntity entity = httpResponse.getEntity();
 			TypeReference<HashMap<String, List<Centre>>> typeRef = new TypeReference<HashMap<String, List<Centre>>>() {
 			};
 			response = mapper.readValue(entity.getContent(), typeRef);
 			EntityUtils.consume(entity);
-		} catch (Exception e) {
-			System.out.println(httpResponse.getStatusLine());
-			System.out.println(EntityUtils.toString(httpResponse.getEntity()));
-		} finally {
-			httpResponse.close();
+		}
+		catch (IOException e) {
+			System.out.println("Please check your internet connection.");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if(httpclient != null)
+				httpclient.close();
+			if (httpResponse != null)
+				httpResponse.close();
 		}
 		return response;
 	}
@@ -96,7 +104,7 @@ public class FunctionUtils {
 	
 	public void playTheme() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		AudioInputStream audioInputStream = AudioSystem
-				.getAudioInputStream(VaccineAvailibility.class.getResource("/Theme_Undertaker_Entry.wav"));
+				.getAudioInputStream(VaccineAvailibilityMain.class.getResource("/Theme_Undertaker_Entry.wav"));
 		Clip clip = AudioSystem.getClip();
 		clip.open(audioInputStream);
 		clip.start();
